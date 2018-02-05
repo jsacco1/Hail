@@ -1,0 +1,53 @@
+Hail Tutorial with 1000 Genomes
+
+Purpose: show how to download, read, parse, and explore the 1000 Genomes vcf file with Hail
+
+Note: path names may need to change based on individual, local usernames and systems
+
+Open terminal:
+   ssh hpc
+   cd /data/bioinfo
+   cd data
+   cd public
+   cd 1000_genomes
+   mkdir phase3
+   
+To download 1000 genomes vcf, paste link from 1000genomes after wget
+
+    wget ftp://ftp.ensembl.org/pub/grch37/update/variation/vcf/homo_sapiens/1000GENOMES-phase_3.vcf.gz
+    vim
+
+Copy and paste spark-cluster.sh from hail-tutorial on Biomarin gitlab
+Exit vim
+
+    ihail
+    from hail import *
+    import os
+    from pyspark import SparkConf, SparkContext
+    from pprint import pprint
+    from pyspark import sql
+    from pyspark.sql import types
+    import hail
+
+    sc = SparkContext(conf=SparkConf().setAll([
+   ...:     ('spark.sql.files.maxPartitionBytes', '64000000000'),
+   ...:     ('spark.sql.files.openCostInBytes', '64000000000'),
+   ...:     ('spark.app.name', 'HAIL'),
+   ...:     ('spark.executor.memory', '180g'),
+   ...:     ('spark.local.dir', os.environ.get('SCRATCHLOCAL', '/scratch/local/ja896727')),
+   ...:     ('spark.master', os.environ['SPARK_MASTER']),
+   ...:     ('spark.submit.deployMode', 'client'),
+   ...:     ('spark.driver.maxResultSize', '5g'),
+   ...: ]))
+    hc = hail.HailContext(sc=sc, master=sc.getConf().get('spark.master'))
+    vcf = hc.import_vcf('1000genomes.vcf')
+    vcf = vcf.split_multi().persist()
+%Your vcf is loaded and distributed efficiently!
+
+Explore the data:
+    vcf.summarize()
+    vcf.count_variants()
+    var1 = vcf.variants_table().take(1) %look at one variable
+    vcf.filter_variants_expr('va.info.SAS_AF.exists(af => af >= .4)').count() %variants with allele frequency of less than 40% of the South Asian population
+    vcf.filter_variants_expr('va.info.SAS_AF.exists(af => af <= 0.01)').count() %variants with allele frequency of less than 1% of the South Asian population
+    vcf.filter_variants_expr('va.info.SAS_AF.exists(af => af <= 0.01)').summarize()
