@@ -5,7 +5,7 @@ Purpose: show how to download, read, parse, and explore the 1000 Genomes vcf fil
 Note: path names may need to change based on individual, local usernames and systems
 
 Open terminal:
-   ssh hpc
+   %ssh into high performance computing cluster%
    %make directory%
    
 To download 1000 genomes vcf, paste link from 1000genomes after wget
@@ -30,7 +30,7 @@ Exit vim
    ...:     ('spark.sql.files.openCostInBytes', '64000000000'),
    ...:     ('spark.app.name', 'HAIL'),
    ...:     ('spark.executor.memory', '180g'),
-   ...:     ('spark.local.dir', os.environ.get('SCRATCHLOCAL', '/scratch/local/ja896727')),
+   ...:     ('spark.local.dir', os.environ.get('SCRATCHLOCAL', '[path]')),
    ...:     ('spark.master', os.environ['SPARK_MASTER']),
    ...:     ('spark.submit.deployMode', 'client'),
    ...:     ('spark.driver.maxResultSize', '5g'),
