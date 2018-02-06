@@ -6,11 +6,7 @@ Note: path names may need to change based on individual, local usernames and sys
 
 Open terminal:
    ssh hpc
-   cd /data/bioinfo
-   cd data
-   cd public
-   cd 1000_genomes
-   mkdir phase3
+   %make directory%
    
 To download 1000 genomes vcf, paste link from 1000genomes after wget
 
