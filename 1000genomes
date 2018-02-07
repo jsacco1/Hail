@@ -33,16 +33,20 @@ To download 1000 genomes vcf, paste link from 1000genomes after wget
    ...: ]))
     hc = hail.HailContext(sc=sc, master=sc.getConf().get('spark.master'))
     vcf = hc.import_vcf('1000genomes.vcf')
-    vcf = vcf.split_multi().cache() %cache is the function to "persist" in memory
+    vcf = vcf.split_multi().cache() %cache is the function to "persist" in memory\
+    
 %Your vcf is loaded and distributed efficiently!
 
-Explore the data:
+%add VEP annotations
+
+data = vcf.vep('PATH/TO/VEP', csq=True, root='va.csq')
+
+%Explore the data
+
     vcf.summarize()
     vcf.count_variants()
     var1 = vcf.variants_table().take(1) %look at one variable
     vcf.filter_variants_expr('va.info.SAS_AF.exists(af => af >= .4)').count() %variants with allele frequency of less than 40% of the South Asian population
     vcf.filter_variants_expr('va.info.SAS_AF.exists(af => af <= 0.01)').count() %variants with allele frequency of less than 1% of the South Asian population
     vcf.filter_variants_expr('va.info.SAS_AF.exists(af => af <= 0.01)').summarize()
-    
-%add VEP annotations
-data = vcf.vep('PATH/TO/VEP', csq=True, root='va.csq')
+   
