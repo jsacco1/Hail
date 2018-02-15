@@ -20,11 +20,13 @@ Result:
 Your vcf file is loaded and annotated
 
 
-2)Hail GWAS tutorial:
+2)Hail GWAS tutorial includes:
 
-Loading data
-Annotations
-QC metrics
-PCA
-Regression
+
+Loading data,
+Variant annotations,
+QC metrics,
+running the GWAS,
+PCA,
+Regression,
 Rare variant analysis
