@@ -24,9 +24,15 @@ Your vcf file is loaded and annotated
 
 
 Loading data,
+
 Variant annotations,
+
 QC metrics,
+
 running the GWAS,
+
 PCA,
+
 Regression,
+
 Rare variant analysis
