@@ -1,4 +1,4 @@
-# Hail tutorial using 1000 Genomes
+# Hail analysis of 1000 Genomes VCF
 
 ## Description
 
